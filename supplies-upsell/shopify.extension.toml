@@ -1,0 +1,52 @@
+api_version = "2026-01"
+type = "ui_extension"
+name = "Supplies Upsell"
+handle = "supplies-upsell"
+
+# Dynamic block target — appears as an "App block" the merchant can
+# drag and drop in the checkout editor. We use this (instead of a
+# static target like cart-line-list.render-after) so merchants can
+# pin the upsell BELOW the cost summary / total, not between items
+# and total. Shoppers should see what they owe before being upsold.
+[[targeting]]
+module = "./src/Checkout.jsx"
+target = "purchase.checkout.block.render"
+
+# Allow `shopify.query` to hit the Storefront API so we can pull the
+# supplies collection's products on the fly.
+[capabilities]
+api_access = true
+
+# Pulls products from a chosen collection so websites merchandising
+# team can swap which supplies show up without any code changes.
+[settings]
+
+  [[settings.fields]]
+  key = "collection_handle"
+  type = "single_line_text_field"
+  name = "Collection handle"
+  description = "Storefront collection used to source upsell products. Defaults to 'supplies'."
+
+  [[settings.fields]]
+  key = "max_products"
+  type = "number_integer"
+  name = "Max products"
+  description = "How many products to suggest. 2-6 works best."
+
+  [[settings.fields]]
+  key = "heading"
+  type = "single_line_text_field"
+  name = "Heading"
+  description = "Shown above the upsell strip. e.g. 'Add to your order'."
+
+  [[settings.fields]]
+  key = "subheading"
+  type = "single_line_text_field"
+  name = "Subheading"
+  description = "Optional small caption under the heading."
+
+  [[settings.fields]]
+  key = "cta_label"
+  type = "single_line_text_field"
+  name = "CTA label"
+  description = "Button text. Defaults to 'Add'."
