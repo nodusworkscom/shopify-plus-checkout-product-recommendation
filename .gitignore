@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.shopify/
+*.log
+.DS_Store
+.env
+.env.*
